@@ -39,37 +39,5 @@ namespace Hopex.OSI.HiddenCommandLine
             if (waitForExit)
                 procCommand.WaitForExit();
         }
-
-        /// <summary>
-        /// Destroys a user-defined process if it is available.
-        /// </summary>
-        /// <param name="processName">The process being destroyed (extension is optional).</param>
-        public void KillProcessByName(string processName)
-        {
-            if (!processName.Contains(".exe"))
-                processName = $@"{processName}.exe";
-
-            Exec("taskkill /F /IM " + processName);
-        }
-
-        /// <summary>
-        /// Searches for a user-defined process.
-        /// </summary>
-        /// <param name="processName">The desired process (extension is optional).</param>
-        public async Task<bool> ExistsProcessByName(string processName)
-        {
-            bool isExists = false;
-            await Task.Run(() =>
-            {
-                foreach (Process process in Process.GetProcesses())
-                    if (process.ProcessName.ToLower().Equals(processName.Replace(".exe", "").ToLower()))
-                    {
-                        isExists = true;
-                        break;
-                    }
-            });
-
-            return isExists;
-        }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
@@ -181,7 +182,7 @@ namespace Hopex.OSI.OperationSystem
         }
 
         /// <summary>
-        /// Количество ядер процессора.
+        /// The number of processor cores.
         /// </summary>
         public string CoreCounts => Environment.ProcessorCount.ToString();
 
@@ -797,6 +798,36 @@ namespace Hopex.OSI.OperationSystem
                     default:
                         return "Unknow";
                 }
+            }
+        }
+
+        /// <summary>
+        /// A list of connected disks and their size in gigabytes.
+        /// </summary>
+        public Dictionary<string, string> Drives
+        {
+            get
+            {
+                Dictionary<string, string> drives = new Dictionary<string, string>();
+                Environment
+                    .GetLogicalDrives()
+                    .ToList()
+                    .ForEach(drive =>
+                    {
+                        DriveInfo driveInfo = new DriveInfo(drive);
+                        if (driveInfo.IsReady)
+                        {
+                            long totalSize = driveInfo.TotalSize;
+                            long availableFreeSpace = driveInfo.AvailableFreeSpace;
+
+                            double occupiedSizeRounded = Math.Round((double)(totalSize - availableFreeSpace) / 1000000000, 0);
+                            double totalSizeRounded = Math.Round((double)totalSize / 1000000000, 0);
+
+                            drives.Add(drive.Replace(":\\", ""), $@"{occupiedSizeRounded}/{totalSizeRounded}");
+                        }                        
+                    });
+
+                return drives;
             }
         }
     }

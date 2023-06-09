@@ -4,16 +4,17 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Threading.Tasks;
 
 namespace Hopex.OSI.ProcessManager
 {
     /// <summary>
-    /// 
+    /// Windows process manager.
     /// </summary>
     public class ProcessManager
     {
         /// <summary>
-        /// Список имен всех запущенных процессов.
+        /// List of names of all running processes.
         /// </summary>
         public List<string> ProcessNames
         {
@@ -30,7 +31,7 @@ namespace Hopex.OSI.ProcessManager
         }
 
         /// <summary>
-        /// Возвращает список описаний всех запущенных процессов.
+        /// A list of descriptions of all running processes.
         /// </summary>
         public List<string> ProcessCaptions
         {
@@ -63,7 +64,7 @@ namespace Hopex.OSI.ProcessManager
         }
 
         /// <summary>
-        /// 
+        /// Windows process manager.
         /// </summary>
         public ProcessManager()
         {
@@ -71,31 +72,53 @@ namespace Hopex.OSI.ProcessManager
         }
 
         /// <summary>
-        /// Указывает на то, существует ли хотя бы один запущеный процесс с указанным именем.
+        /// Indicates whether there is at least one running process with the specified name.
         /// </summary>
-        /// <param name="processName">Имя процесса.</param>
-        /// <returns>Наличие процесса с указанным именем в списке запущенных процессов.</returns>
+        /// <param name="processName">The name of the process.</param>
+        /// <returns><see langword="true"/>, if the process with the specified name is in the list of running processes.</returns>
         public bool ProcessExistsByName(string processName) => Process.GetProcessesByName(processName).Any();
 
+
         /// <summary>
-        /// Уничтожает все процессы с указанным именем.
+        /// Searches for a user-defined process.
         /// </summary>
-        /// <param name="processName">Имя процесса.</param>
+        /// <param name="processName">The desired process (extension is optional).</param>
+        /// <returns><see langword="true"/>, if the process with the specified name is in the list of running processes.</returns>
+        public async Task<bool> AsyncProcessExistsByName(string processName)
+        {
+            bool isExists = false;
+            await Task.Run(() =>
+            {
+                foreach (Process process in Process.GetProcesses())
+                    if (process.ProcessName.ToLower().Equals(processName.Replace(".exe", "").ToLower()))
+                    {
+                        isExists = true;
+                        break;
+                    }
+            });
+
+            return isExists;
+        }
+
+        /// <summary>
+        /// Destroys all processes with the specified name.
+        /// </summary>
+        /// <param name="processName">The name of the process.</param>
         public void ProcessKillByName(string processName) => Process
             .GetProcessesByName(processName)
             .ToList()
             .ForEach(process => process.Kill());
 
         /// <summary>
-        /// Возвращает имя процесса по его идентификатору.
+        /// Returns the process name by its ID.
         /// </summary>
-        /// <param name="processId">Идентификатор процесса.</param>
+        /// <param name="processId">Process ID.</param>
         public string GetProcessNameById(int processId) => Process.GetProcessById(processId).ProcessName;
 
         /// <summary>
-        /// Возвращает идентификатор процесса по его имени.
+        /// Returns the process ID by its name.
         /// </summary>
-        /// <param name="processName">Имя процесса.</param>
+        /// <param name="processName">The name of the process.</param>
         public string GetProcessIdByName(string processName)
         {
             foreach (ManagementObject managementObject in new ManagementObjectSearcher("root\\CIMV2", "SELECT ProcessId, Name FROM Win32_Process").Get())
@@ -106,9 +129,9 @@ namespace Hopex.OSI.ProcessManager
         }
 
         /// <summary>
-        /// Путь до файла процесса по его идентификатору.
+        /// The path to the process file by its ID.
         /// </summary>
-        /// <param name="processId">Идентификатор процесса.</param>
+        /// <param name="processId">Process ID.</param>
         public string GetProcessPathById(int processId)
         {
             foreach (ManagementObject managementObject in new ManagementObjectSearcher("root\\CIMV2", "SELECT ProcessId, ExecutablePath FROM Win32_Process").Get())
@@ -119,9 +142,9 @@ namespace Hopex.OSI.ProcessManager
         }
 
         /// <summary>
-        /// Путь до файла процесса по его имени.
+        /// The path to the process file by its name.
         /// </summary>
-        /// <param name="processName">Имя процесса.</param>
+        /// <param name="processName">The name of the process.</param>
         public string GetProcessPathName(string processName)
         {
             if (!processName.Equals("0x01"))
@@ -135,28 +158,16 @@ namespace Hopex.OSI.ProcessManager
         }
 
         /// <summary>
-        /// Список подключенных дисков и их объем в гигабайтах.
+        /// Destroys a user-defined process if it is available.
         /// </summary>
-        public Dictionary<string, string> GetDrives()
+        /// <param name="processName">The process being destroyed (extension is optional).</param>
+        public void KillProcessByName(string processName)
         {
-            Dictionary<string, string> drives = new Dictionary<string, string>();
-            Environment
-                .GetLogicalDrives()
-                .ToList()
-                .ForEach(drive =>
-            {
-                DriveInfo driveInfo = new DriveInfo(drive);
+            if (!processName.Contains(".exe"))
+                processName = $@"{processName}.exe";
 
-                long totalSize = driveInfo.TotalSize;
-                long availableFreeSpace = driveInfo.AvailableFreeSpace;
-
-                double occupiedSizeRounded = Math.Round((double)(totalSize - availableFreeSpace) / 1000000000, 0);
-                double totalSizeRounded = Math.Round((double)totalSize / 1000000000, 0);
-
-                drives.Add(drive.Replace(":\\", ""), $@"{occupiedSizeRounded}/{totalSizeRounded}");
-            });
-
-            return drives;
+            new HiddenCommandLine.HiddenCommandLine().Exec("taskkill /F /IM " + processName);
         }
+
     }
 }
