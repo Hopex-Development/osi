@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>Hopex.OSI</id>
+    <version>23.0.1</version>
+    <title>$title$</title>
+    <authors>Schizo</authors>
+    <license type="file">\..\..\LICENSE.md</license>
+    <icon>\..\..\icon.png</icon>
+    <projectUrl>https://github.com/Hopex-Development/osi/</projectUrl>
+    <description>Description</description>
+    <copyright>Hopex Development, 2023</copyright>
+    <tags>os, operation sysytem, os information, wmi, framework, frameworks</tags>
+  </metadata>
+  <files>
+    <file src="C:\Users\schizo\source\repos\hopex\OSI\LICENSE.md" target="\..\..\" />
+    <file src="C:\Users\schizo\source\repos\hopex\OSI\README.md" target="\..\..\" />
+    <file src="C:\Users\schizo\source\repos\hopex\OSI\icon.png" target="\..\..\" />
+  </files>
+</package>
