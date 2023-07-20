@@ -1,6 +1,6 @@
 ﻿
-using Hopex.OSI.OperationSystem.Enums;
-using Hopex.OSI.OperationSystem.Services;
+using Hopex.OSI.Information.Enums;
+using Hopex.OSI.Information.Services;
 
 using Microsoft.Win32;
 
@@ -14,12 +14,12 @@ using System.Runtime.InteropServices;
 
 using System.Windows.Forms;
 
-namespace Hopex.OSI.OperationSystem
+namespace Hopex.OSI.Information
 {
     /// <summary>
     /// Summary information about the operating system.
     /// </summary>
-    public class OperationSystem
+    public class SystemInformation
     {
         #region Constantes
 
@@ -125,7 +125,7 @@ namespace Hopex.OSI.OperationSystem
         );
 
         [DllImport("kernel32.dll")]
-        private static extern bool GetVersionEx(ref OperationSystemVersionInformation osVersionInfo);
+        private static extern bool GetVersionEx(ref InformationVersionInformation osVersionInfo);
 
         [DllImport("user32")]
         public static extern int GetSystemMetrics(int nIndex);
@@ -209,9 +209,9 @@ namespace Hopex.OSI.OperationSystem
             get
             {
                 OperatingSystem osVersion = Environment.OSVersion;
-                OperationSystemVersionInformation osVersionInfo = new OperationSystemVersionInformation
+                InformationVersionInformation osVersionInfo = new InformationVersionInformation
                 {
-                    dwOSVersionInfoSize = Marshal.SizeOf(typeof(OperationSystemVersionInformation))
+                    dwOSVersionInfoSize = Marshal.SizeOf(typeof(InformationVersionInformation))
                 };
 
                 if (GetVersionEx(ref osVersionInfo))
@@ -472,9 +472,9 @@ namespace Hopex.OSI.OperationSystem
             get
             {
                 OperatingSystem osVersion = Environment.OSVersion;
-                OperationSystemVersionInformation osVersionInfo = new OperationSystemVersionInformation
+                InformationVersionInformation osVersionInfo = new InformationVersionInformation
                 {
-                    dwOSVersionInfoSize = Marshal.SizeOf(typeof(OperationSystemVersionInformation))
+                    dwOSVersionInfoSize = Marshal.SizeOf(typeof(InformationVersionInformation))
                 };
 
                 if (GetVersionEx(ref osVersionInfo))
@@ -646,9 +646,9 @@ namespace Hopex.OSI.OperationSystem
         {
             get
             {
-                OperationSystemVersionInformation osVersionInfo = new OperationSystemVersionInformation
+                InformationVersionInformation osVersionInfo = new InformationVersionInformation
                 {
-                    dwOSVersionInfoSize = Marshal.SizeOf(typeof(OperationSystemVersionInformation))
+                    dwOSVersionInfoSize = Marshal.SizeOf(typeof(InformationVersionInformation))
                 };
 
                 if (GetVersionEx(ref osVersionInfo))
@@ -753,7 +753,7 @@ namespace Hopex.OSI.OperationSystem
         /// <summary>
         /// Summary information about the operating system.
         /// </summary>
-        public OperationSystem()
+        public SystemInformation()
         {
 
         }

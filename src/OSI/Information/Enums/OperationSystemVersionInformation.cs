@@ -1,12 +1,12 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Hopex.OSI.OperationSystem.Enums
+namespace Hopex.OSI.Information.Enums
 {
     /// <summary>
     /// Operating system version informations.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct OperationSystemVersionInformation
+    public struct InformationVersionInformation
     {
         /// <summary>
         /// Information of size, operating system version.

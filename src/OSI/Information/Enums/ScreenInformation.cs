@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 
-namespace Hopex.OSI.OperationSystem.Enums
+namespace Hopex.OSI.Information.Enums
 {
     /// <summary>
     /// Basic information about the user's display.

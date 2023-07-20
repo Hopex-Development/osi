@@ -1,5 +1,5 @@
 ﻿
-using Hopex.OSI.OperationSystem.Enums;
+using Hopex.OSI.Information.Enums;
 
 using System;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Linq;
 
 using System.Runtime.InteropServices;
 
-namespace Hopex.OSI.OperationSystem.Services
+namespace Hopex.OSI.Information.Services
 {
     /// <summary>
     /// A service for obtaining data about bits.
@@ -16,7 +16,7 @@ namespace Hopex.OSI.OperationSystem.Services
     {
 #pragma warning disable CS1591
         [DllImport("kernel32.dll")]
-        public static extern void GetNativeSystemInfo([MarshalAs(UnmanagedType.Struct)] ref SystemInformation lpSystemInfo);
+        public static extern void GetNativeSystemInfo([MarshalAs(UnmanagedType.Struct)] ref Enums.SystemInformation lpSystemInfo);
 
         [DllImport("kernel32", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
         public extern static IntPtr GetProcAddress(IntPtr hwnd, string procedureName);
@@ -99,7 +99,7 @@ namespace Hopex.OSI.OperationSystem.Services
         /// <summary>
         /// Operation system bits.
         /// </summary>
-        public SoftwareArchitecture OperationSystemBits
+        public SoftwareArchitecture InformationBits
         {
             get
             {
@@ -127,7 +127,7 @@ namespace Hopex.OSI.OperationSystem.Services
             {
                 try
                 {
-                    SystemInformation nativeSystemInfo = new SystemInformation();
+                    Enums.SystemInformation nativeSystemInfo = new Enums.SystemInformation();
                     GetNativeSystemInfo(ref nativeSystemInfo);
 
                     switch (nativeSystemInfo.uProcessorInfo.wProcessorArchitecture)

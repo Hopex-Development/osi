@@ -1,4 +1,4 @@
-﻿namespace Hopex.OSI.OperationSystem.Enums
+﻿namespace Hopex.OSI.Information.Enums
 {
     /// <summary>
     /// Software architecture.

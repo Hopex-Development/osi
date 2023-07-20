@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Hopex.OSI.OperationSystem.Enums
+namespace Hopex.OSI.Information.Enums
 {
     /// <summary>
     /// System information.

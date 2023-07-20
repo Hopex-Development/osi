@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Win32;
 
-namespace Hopex.OSI.OperationSystem.Services
+namespace Hopex.OSI.Information.Services
 {
     /// <summary>
     /// Service for obtaining data about frameworks.

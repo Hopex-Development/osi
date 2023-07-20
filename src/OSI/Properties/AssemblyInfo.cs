@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанные со сборкой.
 [assembly: AssemblyTitle("Hopex.OSI")]
-[assembly: AssemblyDescription("Provides the ability to quickly obtain detailed information about the Windows operating system, processor, installed SP, .NET Frameworks. It also allows you to get information about running system processes and manage them.")]
+[assembly: AssemblyDescription("Provides the ability to quickly obtain detailed information about the Windows operating system, processor, installed SP, .NET Frameworks and BIOS. Also allows you to get information about running system processes and manage them.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Hopex")]
 [assembly: AssemblyProduct("Hopex.OSI")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("23.0.0.1")]
-[assembly: AssemblyFileVersion("23.0.0.1")]
+[assembly: AssemblyVersion("23.0.0.3")]
+[assembly: AssemblyFileVersion("23.0.0.3")]
